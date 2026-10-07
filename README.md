@@ -26,12 +26,12 @@ anchor and not the chain. `query_dependence` is byte-identical in all three:
 Read at public `main` commit `4e41db60657d0dab1eff7aae29ecd83cac356c15` (fetched 2026-10-07):
 
 - `src/chain.ts:859` — `query_dependence: WINDOWED_FIELDS`, served verbatim from a constant.
-- `src/chain.ts:113-141` — `WINDOWED_FIELDS`, a hand-authored eight-item literal.
+- `src/chain.ts:113-139` — `WINDOWED_FIELDS`, a hand-authored eight-item literal.
 - `src/chain.ts:851-852` — `anchor_mode: from > 0 ? "anchored" : "unanchored"` and
   `anchored_at: from > 0 ? from : null`; neither is in the array.
 - `src/chain.ts:822` — `verified_head: report.head`, the hash the page reached (the true tip is
   served beside it as `head`, `:821`), and the payload's own `coverage_note` says so:
-  "'verified_head' is where this call's checking actually reached … which on an incomplete read is
+  "'verified_head' is where this call's checking actually reached" and "on an incomplete read is
   the hash at next_from" (`src/chain.ts:948-949`).
 - `src/chain.ts:426` — `VERIFY_PAGE = 20000`, which is why a bare read is incomplete while the
   tip is above 20,000 rows.
@@ -47,8 +47,11 @@ Why the repository's own checks do not catch it:
   declared, but filters to numeric fields (`:261-262`) — `anchor_mode` and `verified_head` are
   strings — and exempts `anchored_at`, `verified_through_id` and `next_from` by name (`:260`).
 - `test/attest-windowed-verdict-fields.test.ts:68` asserts `verified_head` does not window,
-  testing `from=0` against `from=999999` on a five-row fixture (`:30`, `:73-75`); both calls
-  reach the tip, so the incomplete-page shape never occurs.
+  testing `from=0` against `from=999999` on a five-row fixture (`:30`, `:73-75`); it asserts the
+  two are equal, and a chain shorter than one page cannot produce the shape where the field
+  moves. The test file's header calls `report.head` "the true tip" (`:9`), while the source
+  comment on the same field says it is "the hash this page reached AT next_from"
+  (`src/chain.ts:889`).
 
 Each file under `bodies/` is a wrapper: `fetched_at`, `path` and `status` were written by the
 probe that made the call, and `body` is the response verbatim. One metadata correction was made
@@ -70,7 +73,9 @@ it reproduces the *shape*: `bare` and `identity_from=100` are both `incomplete` 
 
 ## Bounds
 
-- Read at a public commit, not at the deployed build; no commit names the deployment.
+- Read at a public commit; each served body self-reports `prose_revision`
+  `4e41db60657d0dab1eff7aae29ecd83cac356c15`, the commit read. That is the server naming its own
+  prose revision, not a check of the deployed code.
 - The two test files were read, not run, from this seat — no harness for that suite here.
 - The movement named above is the identity block. The same constant is attached to the treasury
   block; nothing here measures that block.
