@@ -1,0 +1,33 @@
+fetched_at: bare 2026-10-07T17:18:16.946Z, from100 2026-10-07T17:18:18.747Z, continuation 2026-10-07T17:18:20.366Z
+
+| call | anchor_mode | anchored_at | ok | status | verified_through_id | verified_head | head | next_from | total_rows |
+|---|---|---|---|---|---|---|---|---|---|
+| bare | "unanchored" | null | false | "incomplete" | 20000 | "f4f81f4511b0997cdb1c1ab411001b3ea49675acb34780cb0f6c9b24f8b34b70" | "d4a051b74bd44ecf48542342bc212a99ebcdd0d8c84fd36bb455ef946edab0e4" | 20000 | 24242 |
+| identity_from=100 | "anchored" | 100 | false | "incomplete" | 20100 | "ab9a848bc91474275c0eed8a5967a9b25ae0e172678667d4c559f2bdd7a8f86d" | "d4a051b74bd44ecf48542342bc212a99ebcdd0d8c84fd36bb455ef946edab0e4" | 20100 | 24242 |
+| continuation (identity_from=20000&expect=row-1 verified_head) | "anchored" | 20000 | true | "verified" | 24242 | "d4a051b74bd44ecf48542342bc212a99ebcdd0d8c84fd36bb455ef946edab0e4" | "d4a051b74bd44ecf48542342bc212a99ebcdd0d8c84fd36bb455ef946edab0e4" | — | 24242 |
+
+tip identical in all three: true
+served query_dependence (identical in all three): ["sealed_entries","unsealed_entries","legacy_unsealed_above_anchor","anchor_resolved_id","anchor_resolved_as_requested","ok","status","verified_through_id"]
+
+bare vs from100 (both incomplete, same tip):
+  sealed_entries: bare=19986  from100=20000
+  unsealed_entries: bare=14  from100=0
+  verified_head: bare="f4f81f4511b0997cdb1c1ab411001b3ea49675acb34780cb0f6c9b24f8b34b70"  from100="ab9a848bc91474275c0eed8a5967a9b25ae0e172678667d4c559f2bdd7a8f86d"
+  verified_through_id: bare=20000  from100=20100
+  legacy_unsealed_above_anchor: bare=14  from100=0
+  anchor_mode: bare="unanchored"  from100="anchored"
+  anchored_at: bare=null  from100=100
+  anchor_resolved_id: bare=null  from100=100
+  anchor_resolved_as_requested: bare=null  from100=true
+  reason: bare="verification incomplete — checked 20000 rows through id 20000 of 24242. This is NOT a tamper report: no break was found in what was checked. Call GET /api/attest?identity_from=20000&identity_expect=f4f81f4511b0997cdb1c1ab411001b3ea49675acb34780cb0f6c9b24f8b34b70 to continue while status is 'incomplete' (identity_from moves this chain only; a bare from= anchors the other chain too, past its end, where it reads 'empty' and turns the top-level ok false). The expect is the hash this call reached at id 20000: the next page is seeded from the stored hash there, so without it the two pages are two adjacent claims, and with it they are one verification."  from100="verification incomplete — checked 20000 rows through id 20100 of 24242. This is NOT a tamper report: no break was found in what was checked. Call GET /api/attest?identity_from=20100&identity_expect=ab9a848bc91474275c0eed8a5967a9b25ae0e172678667d4c559f2bdd7a8f86d to continue while status is 'incomplete' (identity_from moves this chain only; a bare from= anchors the other chain too, past its end, where it reads 'empty' and turns the top-level ok false). The expect is the hash this call reached at id 20100: the next page is seeded from the stored hash there, so without it the two pages are two adjacent claims, and with it they are one verification."
+  next_from: bare=20000  from100=20100
+
+declared in query_dependence?
+  anchor_mode: NO  (moved between bare and from100: true)
+  anchored_at: NO  (moved between bare and from100: true)
+  verified_head: NO  (moved between bare and from100: true)
+  anchor_resolved_id: yes  (moved between bare and from100: true)
+  anchor_resolved_as_requested: yes  (moved between bare and from100: true)
+  ok: yes  (moved between bare and from100: false)
+  status: yes  (moved between bare and from100: false)
+  verified_through_id: yes  (moved between bare and from100: true)
