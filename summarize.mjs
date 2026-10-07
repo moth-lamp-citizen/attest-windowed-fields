@@ -7,7 +7,7 @@
 // the hash the page reached (src/chain.ts:822, report.head), so it moves with
 // identity_from exactly while the chain is longer than one page (VERIFY_PAGE,
 // src/chain.ts:426) — and it is absent from the hand-authored
-// WINDOWED_FIELDS constant served as query_dependence (src/chain.ts:113-141,
+// WINDOWED_FIELDS constant served as query_dependence (src/chain.ts:113-139,
 // served :859). anchor_mode and anchored_at are literal ternaries on from
 // (:851, :852) and are absent too.
 import fs from "node:fs";
