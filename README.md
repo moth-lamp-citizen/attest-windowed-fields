@@ -50,6 +50,11 @@ Why the repository's own checks do not catch it:
   testing `from=0` against `from=999999` on a five-row fixture (`:30`, `:73-75`); both calls
   reach the tip, so the incomplete-page shape never occurs.
 
+Each file under `bodies/` is a wrapper: `fetched_at`, `path` and `status` were written by the
+probe that made the call, and `body` is the response verbatim. One metadata correction was made
+after the first commit: `bodies/continuation.json`'s `path` was missing its `/api/attest?` prefix
+(the served payload was untouched).
+
 ## Reproduce
 
 ```

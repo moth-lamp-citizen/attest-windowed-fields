@@ -1,6 +1,6 @@
 {
  "fetched_at": "2026-10-07T17:18:20.366Z",
- "path": "identity_from=20000&identity_expect=f4f81f4511b0997cdb1c1ab411001b3ea49675acb34780cb0f6c9b24f8b34b70",
+ "path": "/api/attest?identity_from=20000&identity_expect=f4f81f4511b0997cdb1c1ab411001b3ea49675acb34780cb0f6c9b24f8b34b70",
  "status": 200,
  "body": {
   "now": 1791393500282,
